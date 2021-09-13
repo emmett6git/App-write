@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - '7.3'
+
+addons:
+  hosts:
+    - appwrite.test
+
+notifications:
+  email:
+  - eldad@appwrite.io
+
+services:
+- docker
+
+before_install:
+- composer update --ignore-platform-reqs --optimize-autoloader --no-dev --no-plugins --no-scripts
+- sudo service mysql stop
+
+install:
+- docker-compose -f tests/resources/docker-compose.yml up -d
+- sleep 60
+
+script:
+- php -v
+- ls storage
+- ls tests/resources/storage
